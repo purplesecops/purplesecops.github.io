@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<head>
+</head>
+  <body style="background-color:#222">
+  <style>
+ .footer {
+    color: #e6b545;
+	   position: fixed;     
+       text-align: center;    
+       bottom: 0px; 
+       width: 100%;
+}
+.button {
+     padding: 10px 20px;
+     font-weight: bold;
+      background: #0c0;
+      color: #000;
+      border: none;
+      cursor: pointer;
+	  text-align:center;
+    }
+	 .button:hover {
+    	opacity: 0.8;
+    }
+	</style>
+	<br>
+	<br>
+	<br>
+	<br>
+  <h1 style="text-align:center; color:red; font-size:36px " >What Bug You want to Report?<h1>
+      <br>
+  <div style="text-align:center;">
+	 <input type="button" class="button" id="authbypass" value="Authentication Bypass" >
+    <input type="button" class="button" id="noratelimit" value="No-Rate Limit">
+    <input type="button" class="button" id="xss" value="XSS">
+    <input type="button" class="button" id="csrf" value="CSRF">
+    <input type="button" class="button" id="cors" value="CORS">
+    <input type="button" class="button" id="ssrf" value="SSRF">
+    <input type="button" class="button" id="sqli" value="SQLi">
+    <input type="button" class="button" id="blh" value="Broken Link Hijack">
+    <input type="button" class="button" id="cj" value="Clickjacking">
+    <br>
+    <input type="button" class="button" id="stko" value="Subdomain Takeovers">
+    <input type="button" class="button" id="htmli" value="HTMLi">
+    <input type="button" class="button" id="fi" value="File Inclusions">
+    <input type="button" class="button" id="dl" value="Directory Listing">
+</div>
+          <section class="footer">
+            <div class="footer"><br><br>
+           </div>
+      <center><font size="2">This is the free demo result. For a full version of this website, please go to  <a href="https://www6.waybackmachinedownloader.com/website-downloader-online/scrape-all-files/">Website Downloader</a></font></center></body>
+<script>
+document.getElementById("authbypass").addEventListener("click", function() {
+    location.href="bugbounty/authbypass.html";
+});
+document.getElementById("noratelimit").addEventListener("click", function() {
+    location.href="bugbounty/nrlreport.html";
+});
+document.getElementById("xss").addEventListener("click", function() {
+    location.href="bugbounty/xssreport.html";
+});
+document.getElementById("csrf").addEventListener("click", function() {
+    location.href="bugbounty/csrf.html";
+});
+document.getElementById("cors").addEventListener("click", function() {
+    location.href="bugbounty/corsreport.html";
+});
+document.getElementById("ssrf").addEventListener("click", function() {
+    location.href="bugbounty/ssrf.html";
+});
+document.getElementById("sqli").addEventListener("click", function() {
+    location.href="bugbounty/sqli.html";
+});
+document.getElementById("blh").addEventListener("click", function() {
+    location.href="bugbounty/blh.html";
+});
+document.getElementById("cj").addEventListener("click", function() {
+    location.href="bugbounty/cj.html";
+});
+document.getElementById("htmli").addEventListener("click", function() {
+    location.href="index.html";
+});
+document.getElementById("stko").addEventListener("click", function() {
+    location.href="index.html";
+});
+document.getElementById("fi").addEventListener("click", function() {
+    location.href="index.html";
+});
+document.getElementById("dl").addEventListener("click", function() {
+    location.href="index.html";
+});
+</script>
+</html>
