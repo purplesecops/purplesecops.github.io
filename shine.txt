@@ -1,0 +1,3 @@
+https://codingo.io/tools/ffuf/bounty/2020/09/17/everything-you-need-to-know-about-ffuf.html
+https://blog.intigriti.com/2021/05/03/hacker-tools-ffuf-fuzz-faster-u-fool-2/
+https://www.youtube.com/watch?v=iLFkxAmwXF0
