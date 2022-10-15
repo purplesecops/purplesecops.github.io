@@ -1,0 +1,48 @@
+echo -e "\e[1;36m Enter the domain: \e[0m"
+read domain
+echo -e "\e[1;32m Sit back and relax... \e[0m"
+echo -e "\e[1;34m Running AMASS... \e[0m"
+amass enum -passive -d $domain -src | cut -d']' -f 2 | awk '{print $1}' | tee -a amass1.txt
+amass enum -d $domain | cut -d']' -f 2 | awk '{print $1}' | tee -a amass2.txt
+cat amass1.txt amass2.txt | sort -u  > amass.txt
+echo -e "\e[1;34m Running Subfinder... \e[0m"
+subfinder -d $domain > subfinder.txt
+echo -e "\e[1;34m Running Assetfinder... \e[0m"
+assetfinder --subs-only $domain > assetfinder.txt
+echo -e "\e[1;32m Finished subdomain enumeration... \e[0m"
+echo -e "\e[1;31m Finding live hosts... \e[0m"
+cat amass.txt subfinder.txt assetfinder.txt > subdomains.txt
+rm amass.txt subfinder.txt assetfinder.txt
+cat subdomains.txt | sort -u  > alive.txt
+echo -e "\e[1;34m Starting SubdomainTakeoverScan... \e[0m"
+subjack -w alive.txt -t 100 -timeout 30 -o subjack.json -ssl | tee -a subjack
+rm subdomains.txt
+cat alive.txt | httprobe > alivesubdomains
+cat alive.txt | httpx -status-code > alivesubdomains_status_codes
+echo -e "\e[1;32m Screenshots... \e[0m"
+cat alivesubdomains | aquatone
+echo -e "\e[1;32m Starting Dirsearch on all subdomains \e[0m"
+cat alivesubdomains | grep https | xargs -n1 -I{} python3 ~/tools/dirsearch/dirsearch.py -u {} -e "*" -t 50 -b | tee -a  dirsearchresult
+#for URL in $(<alivesubdomains); do ( ffuf -u "${URL}/FUZZ" -w /root/tools/SecLists/content_discovery_all.txt -ac ); done | tee -a ffufresult
+echo -e "\e[1;32m Getting JS files... \e[0m"
+cat alivesubdomains | subjs > jsfiles
+echo -e "\e[1;31m Finding tokens from JS Files... \e[0m"
+nuclei -t /root/nuclei-templates/generic-detections/general-tokens.yaml -l jsfiles | tee -a jstokens
+echo -e "\e[1;34m Starting Nuclei... \e[0m"
+cat alivesubdomains | nuclei -t /root/nuclei-templates/ | tee -a nucleiscan
+echo -e "\e[1;34m Starting Portscan... \e[0m"
+naabu -l alive.txt -p - | tee -a portscanresult
+cat portscanresult | httpx | nuclei -t /root/nuclei-templates/ | tee -a nucleiscan2
+#echo -e "\e[1;34m Starting Simple XSS Scan... \e[0m"
+#cat alive.txt | gau | grep '=' | qsreplace hack\" -a | while read url;do target=$(curl -s -l $url | egrep -o '(hack"|hack\\")'); echo -e "Target:\e[1;33m $url\e[0m" "$target" "\n-------"; done | sed 's/hack"/[>
+rm  *.txt
+curl -X POST -H 'Content-type: application/json' --data '{"text":"Recon finished on '$domain' open http://142.93.211.17:8000/"}' https://hooks.slack.com/services/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
+curl -H "Content-Type: application/json" -d '{"content": "Hey Babe! \nYour reconnaissance is completed. Now go find some bugs BITCH!!!", "embeds": [    {
+      "title": "Recon Data",
+      "description": "Site : '$domain'\nServer Location : http://142.93.211.17:8000/\nScreenshots : http://142.93.211.17:8000/aquatone_report.html",
+      "color": 5814783
+    }
+  ]
+}' "https://discord.com/api/webhooks/840814782168432652/c8Pf8itvoLYNGyc3ssv4v5rT9__CBsr6KiEdvmbmh7IKItYC52hvf206_OkN3ZShaf9u"
+
+simplehttpserver -basic-auth shine:root@5H1N3
