@@ -1,3 +1,31 @@
 <html>
+<head>
+    <title>Get Android Version</title>
+</head>
+<body>
+    <h1>Android Version</h1>
+    <p id="androidVersion"></p>
+
+    <script>
+        // Function to get the Android version
+        function getAndroidVersion() {
+            const userAgent = navigator.userAgent;
+            let androidVersion = "Unknown";
+
+            // Check if the user agent contains information about Android
+            const androidVersionMatch = userAgent.match(/Android\s([\d\.]+)/);
+            if (androidVersionMatch) {
+                androidVersion = androidVersionMatch[1];
+            }
+
+            return androidVersion;
+        }
+
+        // Display the Android version on the web page
+        const androidVersionElement = document.getElementById("androidVersion");
+        androidVersionElement.textContent = "Android Version: " + getAndroidVersion();
+    </script>
+</body>
+  Important Links
   <a href="https://thugcrowd.com/kiosk/">Thugcrowd</a>
 </html>
