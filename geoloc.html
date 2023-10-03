@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Geolocation Example</title>
+</head>
+<body>
+    <h1>My Current Location</h1>
+    <p>Latitude: <span id="latitude"></span></p>
+    <p>Longitude: <span id="longitude"></span></p>
+
+    <script>
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                // Get the latitude and longitude from the geolocation
+                var latitude = position.coords.latitude;
+                var longitude = position.coords.longitude;
+
+                // Display the coordinates in the HTML elements
+                document.getElementById("latitude").textContent = latitude;
+                document.getElementById("longitude").textContent = longitude;
+            });
+        } else {
+            alert("Geolocation is not supported in your browser.");
+        }
+    </script>
+</body>
+</html>
