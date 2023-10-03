@@ -36,13 +36,13 @@ cat portscanresult | httpx | nuclei -t /root/nuclei-templates/ | tee -a nucleisc
 #echo -e "\e[1;34m Starting Simple XSS Scan... \e[0m"
 #cat alive.txt | gau | grep '=' | qsreplace hack\" -a | while read url;do target=$(curl -s -l $url | egrep -o '(hack"|hack\\")'); echo -e "Target:\e[1;33m $url\e[0m" "$target" "\n-------"; done | sed 's/hack"/[>
 rm  *.txt
-curl -X POST -H 'Content-type: application/json' --data '{"text":"Recon finished on '$domain' open http://142.93.211.17:8000/"}' https://hooks.slack.com/services/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
+curl -X POST -H 'Content-type: application/json' --data '{"text":"Recon finished on '$domain' open http://IP:PORT/"}' https://hooks.slack.com/services/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
 curl -H "Content-Type: application/json" -d '{"content": "Hey Babe! \nYour reconnaissance is completed. Now go find some bugs BITCH!!!", "embeds": [    {
       "title": "Recon Data",
-      "description": "Site : '$domain'\nServer Location : http://142.93.211.17:8000/\nScreenshots : http://142.93.211.17:8000/aquatone_report.html",
+      "description": "Site : '$domain'\nServer Location : http://IP:PORT/\nScreenshots : http://IP:PORT/aquatone_report.html",
       "color": 5814783
     }
   ]
-}' "https://discord.com/api/webhooks/840814782168432652/c8Pf8itvoLYNGyc3ssv4v5rT9__CBsr6KiEdvmbmh7IKItYC52hvf206_OkN3ZShaf9u"
+}' "https://site.com/api/webhooks/840814782168432652/c8Pf8itvoLYNGyc3ssv4v5rT9__CBsr6KiEdvmbmh7IKItYC52hvf206_OkN3ZShaf9u"
 
-simplehttpserver -basic-auth shine:root@5H1N3
+simplehttpserver -basic-auth username:password
