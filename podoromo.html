@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pomodoro Timer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f3f3f3;
+    }
+    #timer {
+      font-size: 48px;
+      margin-top: 50px;
+    }
+    button {
+      font-size: 18px;
+      margin-top: 20px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="timer">25:00</div>
+  <button id="startButton">Start</button>
+  <button id="resetButton">Reset</button>
+
+  <script>
+    let time = 25 * 60; // 25 minutes in seconds
+    let countdown;
+    let isRunning = false;
+
+    const displayTimer = () => {
+      const minutes = Math.floor(time / 60);
+      let seconds = time % 60;
+      seconds = seconds < 10 ? '0' + seconds : seconds;
+      document.getElementById('timer').textContent = `${minutes}:${seconds}`;
+    };
+
+    const startTimer = () => {
+      if (!isRunning) {
+        countdown = setInterval(() => {
+          time--;
+          if (time < 0) {
+            clearInterval(countdown);
+            isRunning = false;
+            document.getElementById('timer').textContent = 'Time\'s up!';
+            return;
+          }
+          displayTimer();
+        }, 1000);
+        isRunning = true;
+      }
+    };
+
+    const resetTimer = () => {
+      clearInterval(countdown);
+      isRunning = false;
+      time = 25 * 60;
+      displayTimer();
+    };
+
+    document.getElementById('startButton').addEventListener('click', startTimer);
+    document.getElementById('resetButton').addEventListener('click', resetTimer);
+  </script>
+</body>
+</html>
