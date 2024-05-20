@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Owner Lookup</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>Vehicle Owner Lookup</h1>
+    <form id="vehicleForm">
+        <label for="vehicleNum">Enter vehicle number:</label>
+        <input type="text" id="vehicleNum" name="vehicleNum" required>
+        <button type="submit">Submit</button>
+    </form>
+    <h2>Owner Name:</h2>
+    <pre id="ownerName"></pre>
+
+    <script>
+        document.getElementById('vehicleForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const vehicleNum = document.getElementById('vehicleNum').value;
+            const ownerNameElement = document.getElementById('ownerName');
+
+            try {
+                const response = await axios.get('https://core.cuvora.com:443/car/velocity/details/list', {
+                    params: {
+                        vehicle_num: vehicleNum,
+                        skipDb: 'false',
+                        refresh: 'false',
+                        soAvailable: 'false',
+                        src: 'keyboard',
+                        addToGarage: 'false',
+                        src: 'carinfo_ios',
+                        appVersion: '452'
+                    },
+                    headers: {
+                        Userid: '6459c5dacee8be3e9c318ed4',
+                        Src: 'carinfo_ios',
+                        'User-Agent': 'CarInfo/72 CFNetwork/1494.0.7 Darwin/23.4.0',
+                        Ts: '1711466247692',
+                        Appopencount: '37',
+                        Appversion: '452',
+                        Searchcount: '26',
+                        Segment: '1',
+                        City: 'Thiruvananthapuram',
+                        Salt: '478',
+                        Deviceid: 'A58BFD48-F12D-4FE2-A415-F03343C6B3F5',
+                        Auth: 'd6ea7c72285e1cfa8ac2581187cad7ddd9152e55368a02191a19addb0ac2a2561cbeb7fdc6a4cdec5ce245cef7155171bec5489c3cb979fec4bc91e50982e885',
+                        Cityid: '8005',
+                        'Accept-Language': 'en-IN,en-GB;q=0.9,en;q=0.8',
+                        Accept: '*/*',
+                        'Accept-Encoding': 'gzip, deflate, br',
+                        Lottie: '1131c6498e70a92d203f66faa836265611573492b4ad67ec30e587a8e24484f2caa7aa2d1b761569cbb3ed87c6513e5b2b721cd41a7474258f4c6876700f1570'
+                    }
+                });
+
+                const data = response.data;
+
+                if (data.NAME) {
+                    let ownerName = data.NAME;
+                    if (ownerName.includes('owned by')) {
+                        ownerName = ownerName.split('owned by').pop().trim();
+                    }
+                    ownerNameElement.textContent = JSON.stringify(ownerName, null, 4);
+                } else {
+                    ownerNameElement.textContent = 'Owner name not found. Full response: ' + JSON.stringify(data, null, 4);
+                }
+            } catch (error) {
+                ownerNameElement.textContent = JSON.stringify(error.toString(), null, 4);
+            }
+        });
+    </script>
+</body>
+</html>
+
